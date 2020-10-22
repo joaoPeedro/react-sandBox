@@ -1,18 +1,18 @@
 import React from "react";
-import { useRef, useCallback } from "react";
+import {useRef, useCallback} from "react";
 
 /**
- * 
+ *
  * @param {
-    * lazyLoading // true || false
-    * lazyOptions // {} - options for observer
-    * lazyCallback // function - callback for observer
-    * styles // "" - class to img
-    * src // "" - class to img
-    * alt // "" - img alt
-    * onLoad // function - run onload
-    * } props 
-    */
+ * lazyLoading // true || false
+ * lazyOptions // {} - options for observer
+ * lazyCallback // function - callback for observer
+ * styles // "" - class to img
+ * src // "" - class to img
+ * alt // "" - img alt
+ * onLoad // function - run onload
+ * } props
+ */
 
 const ImageLoader = (props) => {
   const {
@@ -40,16 +40,19 @@ const ImageLoader = (props) => {
 
   const observer = useRef();
 
-  const imgElementRef = useCallback((node) => {
-    observer.current = new IntersectionObserver((entries) => {
-      lazyCallback(entries[0], observer);
-    }, lazyOptions);
-    if (node) observer.current.observe(node);
-  }, [observer]);
+  const imgElementRef = useCallback(
+    (node) => {
+      observer.current = new IntersectionObserver((entries) => {
+        lazyCallback(entries[0], observer);
+      }, lazyOptions);
+      if (node) observer.current.observe(node);
+    },
+    [observer]
+  );
 
   return (
     <img
-      ref={lazyLoading && imgElementRef || observer}
+      ref={(lazyLoading && imgElementRef) || observer}
       className={(lazyLoading ? "lazy-loading " : "") + styles}
       // loading="lazy"
       //data-lazy-src={lazyLoading ? src : null}
