@@ -1,14 +1,9 @@
 import React from "react";
-import "./App.css";
-import DataFetching from "./DataFetching";
-import StartModal from "./starters/StartModal.jsx";
-import CatalogVodsContainer from "./vods/VodsContainer";
+import StartModal from "./starters/StartModal";
 
 function App() {
   return (
     <React.Fragment>
-      {/* <DataFetching /> */}
-      {/* <CatalogVodsContainer /> */}
       <StartModal />
     </React.Fragment>
   );
