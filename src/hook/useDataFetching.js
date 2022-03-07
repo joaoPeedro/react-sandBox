@@ -1,13 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import {useState, useEffect, useRef} from "react";
 import axios from "axios";
 
 const useDataFetching = (endpoint = null, params = "") => {
   // ter referência ao componente para caso o seu useRef ser false
   // não correr o setState
   const isCurrent = useRef(true);
-  const [state, setState] = useState({ data: null, dataState: "PENDING" });
+  const [state, setState] = useState({data: null, dataState: "PENDING"});
 
-  const callYourMom = (endpoint, params) => {
+  const request = (endpoint, params) => {
     if (!endpoint) return;
     let cancel;
 
@@ -19,14 +19,14 @@ const useDataFetching = (endpoint = null, params = "") => {
     })
       .then((res) => {
         if (isCurrent.current) {
-          setState({ data: res.data, dataState: "FULFILLED" });
+          setState({data: res.data, dataState: "FULFILLED"});
         }
       })
       .catch((err) => {
         if (isCurrent.current) {
           console.log(err);
           if (axios.isCancel(err)) return;
-          setState({ data: null, dataState: "REJECTED" });
+          setState({data: null, dataState: "REJECTED"});
         }
       });
 
@@ -34,7 +34,7 @@ const useDataFetching = (endpoint = null, params = "") => {
   };
 
   useEffect(() => {
-    callYourMom(endpoint, params);
+    request(endpoint, params);
     return () => {
       // called when the component is going to unmount
       isCurrent.current = false;
@@ -48,7 +48,7 @@ const useDataFetching = (endpoint = null, params = "") => {
         data: null,
         dataState: "PENDING",
       }));
-      callYourMom(newUrl, newParams);
+      request(newUrl, newParams);
     },
   ];
 };
